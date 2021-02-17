@@ -10,8 +10,12 @@ path= np.str("C:\\Users\\fabri\\OneDrive\\Desktop\\offline_tracking\\example\\")
 videoFiles = [f for f in listdir(path) if isfile(join(path, f))]
 Files=[join (path, name) for name in videoFiles ]
 rawVideoInfo=h5.File(Files[0],'r')
+videoFiles = [f for f in listdir(path) if isfile(join(path, f))]
+Files=[join (path, name) for name in videoFiles ]
+rawVideoInfo=h5.File(Files[0],'r')
+path=Files[0].replace('.h5','');
 rawVideo=(rawVideoInfo['frames']);
-rawFrame=np.array(rawVideo[:,:,1:1500])
+rawFrame=np.array(rawVideo[:,:,:])
 rawFrame=rawFrame.swapaxes(2,0).swapaxes(1,2)[:,:,:]
 del rawVideo
 backSub=cv.createBackgroundSubtractorMOG2(500, 16, False)
@@ -22,7 +26,7 @@ areaDetectedMean=0;
 counterFrame=0
 fourcc = cv.VideoWriter_fourcc( 'M','J','P','G')
 out = cv.VideoWriter(path+'output_detected.avi', fourcc , 50.0, (y,x),False)
-out_original = cv.VideoWriter(path+'output_raw_vieo.avi', fourcc , 50.0, (y,x),False)
+out_original = cv.VideoWriter(path+'raw_vieo.avi', fourcc , 50.0, (y,x),False)
 xPos=np.array([0]); yPos=np.array([0]);
 for Frames in rawFrame:
     frame =np.ascontiguousarray(Frames)
@@ -35,6 +39,7 @@ for Frames in rawFrame:
     contours, hierarchy = cv.findContours(fgMask, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
     areas=np.array([cv.contourArea(c) for c in contours])
     areaTot.insert(counterFrame, areas)
+    
     if len(areas) == 1:
         areaDetectedMean+=areas
         areaDetectedMean=areaDetectedMean/(counterFrame+1)
@@ -64,7 +69,7 @@ for Frames in rawFrame:
     out.write(fgMask.astype("uint8"))
     out_original.write(frame.astype("uint8"))
     counterFrame +=1
-PosFile = open(path+'output.txt', "w")
+PosFile = open(path+'output_position.txt', "w")
 for i in range(xPos.shape[0]):
     PosFile.write("x: "+str(xPos[i])+ " y: "+str(yPos[i])+ "\n")
 PosFile.close()
