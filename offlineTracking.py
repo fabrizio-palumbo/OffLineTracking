@@ -26,7 +26,7 @@ areaDetectedMean=0;
 counterFrame=0
 fourcc = cv.VideoWriter_fourcc( 'M','J','P','G')
 out = cv.VideoWriter(path+'output_detected.avi', fourcc , 50.0, (y,x),False)
-out_original = cv.VideoWriter(path+'raw_vieo.avi', fourcc , 50.0, (y,x),False)
+out_original = cv.VideoWriter(path+'raw_video.avi', fourcc , 50.0, (y,x),False)
 xPos=np.array([0]); yPos=np.array([0]);
 for Frames in rawFrame:
     frame =np.ascontiguousarray(Frames)
