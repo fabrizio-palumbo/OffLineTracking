@@ -10,6 +10,8 @@ path= np.str("C:\\Users\\fabri\\OneDrive\\Desktop\\offline_tracking\\example\\")
 videoFiles = [f for f in listdir(path) if isfile(join(path, f))]
 Files=[join (path, name) for name in videoFiles ]
 rawVideoInfo=h5.File(Files[0],'r')
+videoFps=10;
+timeLapsFrames=100;#in milliseconds
 videoFiles = [f for f in listdir(path) if isfile(join(path, f))]
 Files=[join (path, name) for name in videoFiles ]
 rawVideoInfo=h5.File(Files[0],'r')
@@ -71,6 +73,6 @@ for Frames in rawFrame:
     counterFrame +=1
 PosFile = open(path+'output_position.txt', "w")
 for i in range(xPos.shape[0]):
-    PosFile.write("x: "+str(xPos[i])+ " y: "+str(yPos[i])+ "\n")
+    PosFile.write("deltaT: "+str(timeLapsFrames)+"x: "+str(xPos[i])+ " y: "+str(yPos[i])+ "\n")
 PosFile.close()
 out.release()
