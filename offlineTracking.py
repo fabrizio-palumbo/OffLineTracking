@@ -76,3 +76,5 @@ for i in range(xPos.shape[0]):
     PosFile.write("deltaT: "+str(timeLapsFrames)+"x: "+str(xPos[i])+ " y: "+str(yPos[i])+ "\n")
 PosFile.close()
 out.release()
+
+## Christa was here
