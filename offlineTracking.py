@@ -21,7 +21,7 @@ backSub=cv.createBackgroundSubtractorMOG2(500, 16, False)
 t, x, y=rawFrame.shape
 framesMasked=[] 
 areaTot= []
-areaDetectedMean=0;
+areaDetectedtotal=0;
 counterFrame=0
 fourcc = cv.VideoWriter_fourcc( 'M','J','P','G')
 out = cv.VideoWriter(path+'output_detected.avi', fourcc , 50.0, (y,x),False)
@@ -40,13 +40,12 @@ for Frames in rawFrame:
     areaTot.insert(counterFrame, areas)
     
     if len(areas) == 1:
-        areaDetectedMean+=areas
-        areaDetectedMean=areaDetectedMean/(counterFrame+1)
+        areaDetectedtotal+=areas
+        areaDetectedMean=areaDetectedtotal/(counterFrame+1)
         detectedIndex=0;
     elif len(areas)>1:
         differences= np.abs(areas - areaDetectedMean)
         detectedIndex = differences.argmin()
-        cv.waitKey()
     if contours:         
         cnts = cv.drawContours(fgMask, contours[detectedIndex], -1, (0, 255, 0), 1)     
         m = cv.moments(cnts)
